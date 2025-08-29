@@ -55,12 +55,17 @@ class HealthDataOperations(
         }
         
         scope.launch {
-            result.success(
+            try {
+                result.success(
                 healthConnectClient
                     .permissionController
                     .getGrantedPermissions()
                     .containsAll(permList),
-            )
+                )
+            } catch (e: Exception) {
+                Log.e("FLUTTER_HEALTH", "hasPermissions:$e")
+                result.success(false)
+            }
         }
     }
 
